@@ -154,13 +154,10 @@ campus-resource-hub/
 │   └── load_test.py                # Concurrent HPA load generator
 ├── demo/
 │   ├── presentation.pptx           # 8-Slide DevSecOps PowerPoint deck
-│   ├── generate_presentation.py    # Python-pptx generator script
-│   ├── recording-guide.md          # Timed narration script & commands
-│   └── evidence-checklist.md       # Verifiable grading evidence matrix
+│   └── recording-guide.md          # Timed narration script & commands
 ├── docker-compose.yml              # Local complete-stack deployment
 ├── .env.example                    # Template environment variables
 ├── .gitignore                      # Secure exclusion rules
-├── GRADING-CHECKLIST.md            # 100-Point grading rubric audit
 └── README.md                       # Master project documentation
 ```
 
@@ -533,4 +530,3 @@ terraform destroy -auto-approve
 - [x] Troubleshooting lab manifests and guide created
 - [x] Presentation PowerPoint generated at `demo/presentation.pptx`
 - [x] Video recording narration script prepared at `demo/recording-guide.md`
-- [x] 100-point grading audit verified in `GRADING-CHECKLIST.md`
