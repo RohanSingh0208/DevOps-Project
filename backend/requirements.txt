@@ -1,4 +1,5 @@
-fastapi==0.115.5
+fastapi==0.124.4
+starlette>=0.49.3
 uvicorn[standard]==0.32.1
 sqlalchemy[asyncio]==2.0.36
 asyncpg==0.30.0
@@ -6,7 +7,7 @@ alembic==1.14.0
 pydantic>=2.12.5
 pydantic-settings>=2.6.1
 email-validator>=2.0.0
-python-multipart==0.0.17
+python-multipart>=0.0.30
 prometheus-fastapi-instrumentator==7.0.0
 psycopg2-binary==2.9.10
 greenlet==3.1.1
