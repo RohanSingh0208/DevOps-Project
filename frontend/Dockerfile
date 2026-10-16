@@ -20,6 +20,9 @@ FROM nginxinc/nginx-unprivileged:1.27-alpine
 
 USER root
 
+# Upgrade OS packages to remediate CVEs in system libraries (OpenSSL, musl, libxml2, zlib, libpng, etc.)
+RUN apk update && apk upgrade --no-cache
+
 # Set working directory to static assets root and clean default files
 WORKDIR /usr/share/nginx/html
 RUN rm -rf /usr/share/nginx/html/* && \
