@@ -98,11 +98,14 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Extract Commit SHA
+      - name: Extract Commit SHA and Normalize Image Names
         id: meta
         run: |
           echo "SHORT_SHA=$(echo ${{ github.sha }} | cut -c1-7)" >> $GITHUB_OUTPUT
           echo "FULL_SHA=${{ github.sha }}" >> $GITHUB_OUTPUT
+          OWNER=$(echo "${{ github.repository_owner }}" | tr '[:upper:]' '[:lower:]')
+          echo "BACKEND_IMAGE=${{ env.REGISTRY }}/${OWNER}/campus-resource-hub-backend" >> $GITHUB_ENV
+          echo "FRONTEND_IMAGE=${{ env.REGISTRY }}/${OWNER}/campus-resource-hub-frontend" >> $GITHUB_ENV
 
       # 1. Build and Scan Backend Image
       - name: Build Backend Docker Image
@@ -112,14 +115,14 @@ jobs:
           file: ./backend/Dockerfile
           load: true
           tags: |
-            ${{ env.REGISTRY }}/${{ env.BACKEND_IMAGE_NAME }}:${{ steps.meta.outputs.SHORT_SHA }}
-            ${{ env.REGISTRY }}/${{ env.BACKEND_IMAGE_NAME }}:${{ steps.meta.outputs.FULL_SHA }}
-            ${{ env.REGISTRY }}/${{ env.BACKEND_IMAGE_NAME }}:latest
+            ${{ env.BACKEND_IMAGE }}:${{ steps.meta.outputs.SHORT_SHA }}
+            ${{ env.BACKEND_IMAGE }}:${{ steps.meta.outputs.FULL_SHA }}
+            ${{ env.BACKEND_IMAGE }}:latest
 
       - name: Run Trivy Security Vulnerability Scanner (Backend)
         uses: aquasecurity/trivy-action@master
         with:
-          image-ref: "${{ env.REGISTRY }}/${{ env.BACKEND_IMAGE_NAME }}:${{ steps.meta.outputs.SHORT_SHA }}"
+          image-ref: "${{ env.BACKEND_IMAGE }}:${{ steps.meta.outputs.SHORT_SHA }}"
           format: "table"
           exit-code: "1"
           ignore-unfixed: true
@@ -133,9 +136,9 @@ jobs:
           file: ./backend/Dockerfile
           push: true
           tags: |
-            ${{ env.REGISTRY }}/${{ env.BACKEND_IMAGE_NAME }}:${{ steps.meta.outputs.SHORT_SHA }}
-            ${{ env.REGISTRY }}/${{ env.BACKEND_IMAGE_NAME }}:${{ steps.meta.outputs.FULL_SHA }}
-            ${{ env.REGISTRY }}/${{ env.BACKEND_IMAGE_NAME }}:latest
+            ${{ env.BACKEND_IMAGE }}:${{ steps.meta.outputs.SHORT_SHA }}
+            ${{ env.BACKEND_IMAGE }}:${{ steps.meta.outputs.FULL_SHA }}
+            ${{ env.BACKEND_IMAGE }}:latest
 
       # 2. Build and Scan Frontend Image
       - name: Build Frontend Docker Image
@@ -145,14 +148,14 @@ jobs:
           file: ./frontend/Dockerfile
           load: true
           tags: |
-            ${{ env.REGISTRY }}/${{ env.FRONTEND_IMAGE_NAME }}:${{ steps.meta.outputs.SHORT_SHA }}
-            ${{ env.REGISTRY }}/${{ env.FRONTEND_IMAGE_NAME }}:${{ steps.meta.outputs.FULL_SHA }}
-            ${{ env.REGISTRY }}/${{ env.FRONTEND_IMAGE_NAME }}:latest
+            ${{ env.FRONTEND_IMAGE }}:${{ steps.meta.outputs.SHORT_SHA }}
+            ${{ env.FRONTEND_IMAGE }}:${{ steps.meta.outputs.FULL_SHA }}
+            ${{ env.FRONTEND_IMAGE }}:latest
 
       - name: Run Trivy Security Vulnerability Scanner (Frontend)
         uses: aquasecurity/trivy-action@master
         with:
-          image-ref: "${{ env.REGISTRY }}/${{ env.FRONTEND_IMAGE_NAME }}:${{ steps.meta.outputs.SHORT_SHA }}"
+          image-ref: "${{ env.FRONTEND_IMAGE }}:${{ steps.meta.outputs.SHORT_SHA }}"
           format: "table"
           exit-code: "1"
           ignore-unfixed: true
@@ -166,9 +169,9 @@ jobs:
           file: ./frontend/Dockerfile
           push: true
           tags: |
-            ${{ env.REGISTRY }}/${{ env.FRONTEND_IMAGE_NAME }}:${{ steps.meta.outputs.SHORT_SHA }}
-            ${{ env.REGISTRY }}/${{ env.FRONTEND_IMAGE_NAME }}:${{ steps.meta.outputs.FULL_SHA }}
-            ${{ env.REGISTRY }}/${{ env.FRONTEND_IMAGE_NAME }}:latest
+            ${{ env.FRONTEND_IMAGE }}:${{ steps.meta.outputs.SHORT_SHA }}
+            ${{ env.FRONTEND_IMAGE }}:${{ steps.meta.outputs.FULL_SHA }}
+            ${{ env.FRONTEND_IMAGE }}:latest
 
   # ── JOB C: GitOps ArgoCD Manifest Update ────────────────────────────────────
   gitops-sync:
