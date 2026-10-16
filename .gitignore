@@ -1,0 +1,98 @@
+# ── Python ──────────────────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+*.egg
+*.egg-info/
+dist/
+build/
+eggs/
+parts/
+var/
+sdist/
+develop-eggs/
+.installed.cfg
+lib/
+lib64/
+*.manifest
+*.spec
+.venv/
+venv/
+ENV/
+env/
+.env
+.env.*
+!.env.example
+
+# ── Node / Frontend ──────────────────────────────────────────────────────
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+frontend/dist/
+frontend/build/
+*.local
+
+# ── Terraform ────────────────────────────────────────────────────────────
+terraform/.terraform/
+terraform/.terraform.lock.hcl
+terraform/terraform.tfstate
+terraform/terraform.tfstate.backup
+terraform/terraform.tfstate.d/
+terraform/*.tfplan
+terraform/tfplan
+terraform/terraform.tfvars
+!terraform/terraform.tfvars.example
+
+# ── Docker ───────────────────────────────────────────────────────────────
+*.tar
+*.tar.gz
+docker-compose.override.yml
+
+# ── IDE / OS ─────────────────────────────────────────────────────────────
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ── Security / Secrets ───────────────────────────────────────────────────
+*.pem
+*.key
+*.p12
+*.pfx
+kubeconfig
+kubeconfig.yaml
+*.kubeconfig
+.kube/
+aws-credentials
+.aws/credentials
+secrets.yaml
+*secret*.yaml
+!k8s/secret-template.yaml
+!helm/campus-resource-hub/templates/secrets.yaml
+
+# ── Logs / Cache ─────────────────────────────────────────────────────────
+*.log
+logs/
+.cache/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+htmlcov/
+.coverage
+coverage.xml
+
+# ── Test artifacts ───────────────────────────────────────────────────────
+test-results/
+trivy-*.json
+trivy-*.sarif
+
+# ── Alembic (keep migrations, not cached pyc) ─────────────────────────────
+backend/alembic/versions/__pycache__/
