@@ -1,0 +1,48 @@
+# Campus Resource Hub — Lightweight Development Helm Values
+# Suitable for Minikube, kind, or single-node lab clusters
+global:
+  environment: development
+  namespace: campus-resource-hub
+
+backend:
+  replicaCount: 1
+  resources:
+    requests:
+      cpu: 50m
+      memory: 64Mi
+    limits:
+      cpu: 250m
+      memory: 256Mi
+  autoscaling:
+    enabled: false
+
+frontend:
+  replicaCount: 1
+  resources:
+    requests:
+      cpu: 25m
+      memory: 32Mi
+    limits:
+      cpu: 100m
+      memory: 64Mi
+
+postgresql:
+  persistence:
+    enabled: false  # Use emptyDir for rapid dev recycling
+
+ingress:
+  enabled: true
+  className: "nginx"
+  hosts:
+    - host: localhost
+      paths:
+        - path: /api
+          pathType: Prefix
+          service: backend
+        - path: /
+          pathType: Prefix
+          service: frontend
+
+monitoring:
+  serviceMonitor:
+    enabled: false

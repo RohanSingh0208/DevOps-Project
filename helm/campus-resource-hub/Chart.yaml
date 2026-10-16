@@ -1,0 +1,16 @@
+apiVersion: v2
+name: campus-resource-hub
+description: Complete Production Helm Chart for Campus Resource Hub (DevSecOps Capstone)
+type: application
+version: 1.0.0
+appVersion: "1.0.0"
+keywords:
+  - campus-resource-hub
+  - devsecops
+  - fastapi
+  - react
+  - postgresql
+  - eks
+maintainers:
+  - name: RohanSingh0208
+    url: https://github.com/RohanSingh0208

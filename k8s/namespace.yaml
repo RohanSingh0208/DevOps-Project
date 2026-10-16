@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: campus-resource-hub
+  labels:
+    app.kubernetes.io/name: campus-resource-hub
+    app.kubernetes.io/managed-by: gitops
+    environment: production
