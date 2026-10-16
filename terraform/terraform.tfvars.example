@@ -1,0 +1,21 @@
+# Sample Terraform variables configuration
+# Copy this file to terraform.tfvars and customize for your environment.
+# NEVER commit terraform.tfvars containing real credentials or secrets!
+
+aws_region            = "ap-south-1"
+environment           = "dev"
+project_name          = "campus-resource-hub"
+project_owner         = "RohanSingh0208"
+
+vpc_cidr              = "10.0.0.0/16"
+public_subnet_cidrs   = ["10.0.1.0/24", "10.0.2.0/24"]
+private_subnet_cidrs  = ["10.0.11.0/24", "10.0.12.0/24"]
+
+cluster_version       = "1.30"
+node_instance_types   = ["t3.medium"]
+node_desired_capacity = 2
+node_min_capacity     = 1
+node_max_capacity     = 4
+
+# Set to false during initial evaluation if you wish to reduce NAT Gateway costs
+enable_nat_gateway    = true
