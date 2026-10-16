@@ -3,7 +3,7 @@
 from sqlalchemy import func, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.models import Resource, Reservation, ReservationStatus, ResourceStatus
+from app.models import Resource, Reservation, ReservationStatus
 from app.schemas import ResourceCreate, ResourceUpdate
 
 
@@ -15,7 +15,7 @@ async def list_resources(
     skip: int = 0,
     limit: int = 100,
 ) -> list[Resource]:
-    stmt = select(Resource).where(Resource.is_active == True)
+    stmt = select(Resource).where(Resource.is_active)
     if resource_type:
         stmt = stmt.where(Resource.resource_type == resource_type)
     if status:

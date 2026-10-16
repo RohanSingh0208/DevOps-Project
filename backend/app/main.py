@@ -9,7 +9,7 @@ from prometheus_fastapi_instrumentator import Instrumentator
 from sqlalchemy import text
 
 from app.config import get_settings
-from app.database import engine, get_db
+from app.database import engine
 from app.routes import resources, reservations, maintenance, dashboard
 
 settings = get_settings()

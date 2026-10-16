@@ -4,7 +4,7 @@ from sqlalchemy import select
 from sqlalchemy.orm import selectinload
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.models import Reservation, ReservationStatus
+from app.models import Reservation
 from app.schemas import ReservationCreate, ReservationUpdate
 from app.services.resources import get_resource_availability
 
