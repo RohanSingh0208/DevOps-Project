@@ -119,8 +119,13 @@ def seed(api_url: str):
     created_resources = []
     print("\n--- Seeding Resources ---")
     for res_data in SAMPLE_RESOURCES:
+        payload = dict(res_data)
+        if "location" not in payload:
+            payload["location"] = f"{payload.get('building', 'Campus')}, Room {payload.get('room_number', '101')}"
+        if isinstance(payload.get("amenities"), list):
+            payload["amenities"] = ", ".join(payload["amenities"])
         try:
-            resp = requests.post(f"{api_url}/api/resources", json=res_data, timeout=5)
+            resp = requests.post(f"{api_url}/api/resources", json=payload, timeout=5)
             if resp.status_code == 201:
                 resource = resp.json()
                 created_resources.append(resource)
@@ -152,8 +157,8 @@ def seed(api_url: str):
         {
             "resource_id": res_id_1,
             "title": "CS401 Distributed Systems Lecture",
-            "reserved_by": "Prof. Elena Rostova",
-            "user_email": "e.rostova@university.edu",
+            "requester_name": "Prof. Elena Rostova",
+            "requester_email": "e.rostova@university.edu",
             "start_time": (now + timedelta(hours=2)).isoformat(),
             "end_time": (now + timedelta(hours=4)).isoformat(),
             "purpose": "Undergraduate lecture on Raft consensus and Kubernetes architectures",
@@ -162,8 +167,8 @@ def seed(api_url: str):
         {
             "resource_id": res_id_2,
             "title": "DevSecOps Student Workshop",
-            "reserved_by": "Rohan Singh",
-            "user_email": "rohan.singh@campus.edu",
+            "requester_name": "Rohan Singh",
+            "requester_email": "rohan.singh@campus.edu",
             "start_time": (now + timedelta(days=1, hours=3)).isoformat(),
             "end_time": (now + timedelta(days=1, hours=6)).isoformat(),
             "purpose": "Hands-on CI/CD and Container Security hands-on lab demonstration",
@@ -172,8 +177,8 @@ def seed(api_url: str):
         {
             "resource_id": res_id_1,
             "title": "AI Research Group Weekly Sync",
-            "reserved_by": "Dr. Marcus Vance",
-            "user_email": "m.vance@university.edu",
+            "requester_name": "Dr. Marcus Vance",
+            "requester_email": "m.vance@university.edu",
             "start_time": (now + timedelta(days=2, hours=1)).isoformat(),
             "end_time": (now + timedelta(days=2, hours=3)).isoformat(),
             "purpose": "Discussion of recent transformer model fine-tuning benchmarks",
@@ -186,7 +191,7 @@ def seed(api_url: str):
             resp = requests.post(f"{api_url}/api/reservations", json=reservation_data, timeout=5)
             if resp.status_code == 201:
                 item = resp.json()
-                print(f"  [+] Created Reservation: '{item['title']}' for {item['reserved_by']} (ID: {item['id']})")
+                print(f"  [+] Created Reservation: '{item.get('purpose', 'Reservation')}' for {item.get('requester_name')} (ID: {item.get('id')})")
             else:
                 print(f"  [~] Reservation note: {resp.status_code} - {resp.text}")
         except Exception as ex:
@@ -204,6 +209,7 @@ def seed(api_url: str):
             "description": "Magnetic gasket on soundproof door is worn out, causing sound leakage into adjacent quiet study zones.",
             "priority": "medium",
             "reported_by": "Library Supervisor Davis",
+            "reporter_email": "supervisor@library.campus.edu",
             "status": "in_progress",
         },
         {
@@ -212,6 +218,7 @@ def seed(api_url: str):
             "description": "Intermittent video blinking when connecting via external auxiliary HDMI wall patch panel.",
             "priority": "high",
             "reported_by": "Lab Assistant Maya Lin",
+            "reporter_email": "maya.lin@lab.campus.edu",
             "status": "pending",
         },
     ]
@@ -227,7 +234,7 @@ def seed(api_url: str):
         except Exception as ex:
             print(f"  [-] Error creating maintenance: {ex}")
 
-    print("\n[✔] Database seeding complete! You can now verify in the frontend UI or via API.")
+    print("\n[+] Database seeding complete! You can now verify in the frontend UI or via API.")
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Seed Campus Resource Hub with sample data.")

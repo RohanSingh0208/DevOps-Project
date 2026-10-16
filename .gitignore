@@ -96,3 +96,6 @@ trivy-*.sarif
 
 # ── Alembic (keep migrations, not cached pyc) ─────────────────────────────
 backend/alembic/versions/__pycache__/
+
+*.db
+*.sqlite*
