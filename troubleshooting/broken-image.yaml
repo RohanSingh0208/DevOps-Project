@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: lab-broken-image
+  namespace: default
+  labels:
+    lab.devsecops.io/scenario: broken-image
+    lab.devsecops.io/purpose: educational-troubleshooting
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: lab-broken-image
+  template:
+    metadata:
+      labels:
+        app: lab-broken-image
+    spec:
+      containers:
+        - name: web
+          # Deliberate typo in non-existent repository tag: triggers ErrImagePull & ImagePullBackOff
+          image: ghcr.io/rohansingh0208/campus-resource-hub-backend:non-existent-tag-99999
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8000
